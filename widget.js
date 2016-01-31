@@ -154,7 +154,7 @@ cpdefine("inline:com-chilipeppr-widget-ina219", ["chilipeppr_ready", 'SmoothieCh
             
             var chart = new SmoothieChart();
             chart.addTimeSeries(this.lines.random, { strokeStyle: 'rgba(255, 105,105, 1)', fillStyle: 'rgba(255, 105, 105, 0.2)', lineWidth: 4 });
-            chart.streamTo(document.getElementById("com-chilipeppr-widget-ina219-chart"), 1000 /*delay*/);
+            chart.streamTo(document.getElementById("com-chilipeppr-widget-ina219-chart"), 5000 /*delay*/);
             console.log("chart:", chart);
             this.chart = chart;
         },
