@@ -26,7 +26,8 @@ requirejs.config({
     paths: {
         // Example of how to define the key (you make up the key) and the URL
         // Make sure you DO NOT put the .js at the end of the URL
-        // SmoothieCharts: '//smoothiecharts.org/smoothie',
+        //SmoothieCharts: '//smoothiecharts.org/smoothie',
+        SmoothieCharts: '//i2dcui.appspot.com/js/smoothiecharts/smoothie',
     },
     shim: {
         // See require.js docs for how to define dependencies that
@@ -34,7 +35,7 @@ requirejs.config({
     }
 });
 
-cprequire_test(["inline:com-chilipeppr-widget-template"], function(myWidget) {
+cprequire_test(["inline:com-chilipeppr-widget-ina219"], function(myWidget) {
 
     // Test this element. This code is auto-removed by the chilipeppr.load()
     // when using this widget in production. So use the cpquire_test to do things
@@ -74,14 +75,14 @@ cprequire_test(["inline:com-chilipeppr-widget-template"], function(myWidget) {
 } /*end_test*/ );
 
 // This is the main definition of your widget. Give it a unique name.
-cpdefine("inline:com-chilipeppr-widget-template", ["chilipeppr_ready", /* other dependencies here */ ], function() {
+cpdefine("inline:com-chilipeppr-widget-ina219", ["chilipeppr_ready", 'SmoothieCharts' ], function() {
     return {
         /**
          * The ID of the widget. You must define this and make it unique.
          */
-        id: "com-chilipeppr-widget-template", // Make the id the same as the cpdefine id
-        name: "Widget / Template", // The descriptive name of your widget.
-        desc: "This example widget gives you a framework for creating your own widget. Please change this description once you fork this template and create your own widget. Make sure to run runme.js every time you are done editing your code so you can regenerate your README.md file, regenerate your auto-generated-widget.html, and automatically push your changes to Github.", // A description of what your widget does
+        id: "com-chilipeppr-widget-ina219", // Make the id the same as the cpdefine id
+        name: "Widget / ina219", // The descriptive name of your widget.
+        desc: "This widget lets you interact with the Texas Instruments INA219 current sensor. This widget responds to pubsub signals and announcemnts from SPJS so it can show all available current sensor data coming in via SPJS. Any device can publish data, but the most likely is an ESP8266 publishing data over UDP to SPJS.",
         url: "(auto fill by runme.js)",       // The final URL of the working widget as a single HTML file with CSS and Javascript inlined. You can let runme.js auto fill this if you are using Cloud9.
         fiddleurl: "(auto fill by runme.js)", // The edit URL. This can be auto-filled by runme.js in Cloud9 if you'd like, or just define it on your own to help people know where they can edit/fork your widget
         githuburl: "(auto fill by runme.js)", // The backing github repo
@@ -133,11 +134,36 @@ cpdefine("inline:com-chilipeppr-widget-template", ["chilipeppr_ready", /* other 
         init: function() {
             console.log("I am being initted. Thanks.");
 
+            this.initSmoothie();
+            
             this.setupUiFromLocalStorage();
             this.btnSetup();
             this.forkSetup();
 
             console.log("I am done being initted.");
+        },
+        
+        lines: {}, // holds the line TimeSeries()
+        chart: null, // holds ref to chart
+        initSmoothie: function() {
+
+            // Randomly add a data point every 500ms
+            this.lines["random"] = new TimeSeries();
+
+            setInterval(this.chartAddRandomDataPt.bind(this), 1000);
+            
+            var chart = new SmoothieChart();
+            chart.addTimeSeries(this.lines.random, { strokeStyle: 'rgba(255, 105,105, 1)', fillStyle: 'rgba(255, 105, 105, 0.2)', lineWidth: 4 });
+            chart.streamTo(document.getElementById("com-chilipeppr-widget-ina219-chart"), 1000 /*delay*/);
+            console.log("chart:", chart);
+            this.chart = chart;
+        },
+        chartAddRandomDataPt: function() {
+            console.log("adding random data pt");
+            this.lines.random.append(new Date().getTime(), Math.random() * 10000);
+        },
+        chartAddDataPt: function(x, y) {
+            
         },
         /**
          * Call this method from init to setup all the buttons when this widget
