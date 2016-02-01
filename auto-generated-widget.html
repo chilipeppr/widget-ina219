@@ -189,11 +189,24 @@ cpdefine("inline:com-chilipeppr-widget-ina219", ["chilipeppr_ready", 'SmoothieCh
             // Randomly add a data point every 500ms
             this.lines["random"] = new TimeSeries();
 
-            setInterval(this.chartAddRandomDataPt.bind(this), 1000);
+            setInterval(this.chartAddRandomDataPt.bind(this), 2000);
             
-            var chart = new SmoothieChart();
+            var chart = new SmoothieChart({
+                grid: { 
+                    strokeStyle:'rgb(125, 0, 0)', 
+                    fillStyle:'rgb(60, 0, 0)',
+                    lineWidth: 1, 
+                    millisPerLine: 250, 
+                    verticalSections: 6, 
+                    
+                },
+                labels: { 
+                    fillStyle:'rgb(60, 0, 0)' 
+                    
+                }
+            });
             chart.addTimeSeries(this.lines.random, { strokeStyle: 'rgba(255, 105,105, 1)', fillStyle: 'rgba(255, 105, 105, 0.2)', lineWidth: 4 });
-            chart.streamTo(document.getElementById("com-chilipeppr-widget-ina219-chart"), 5000 /*delay*/);
+            chart.streamTo(document.getElementById("com-chilipeppr-widget-ina219-chart"), 1000 /*delay*/);
             console.log("chart:", chart);
             this.chart = chart;
         },
