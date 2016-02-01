@@ -192,6 +192,8 @@ cpdefine("inline:com-chilipeppr-widget-ina219", ["chilipeppr_ready", 'SmoothieCh
             setInterval(this.chartAddRandomDataPt.bind(this), 2000);
             
             var chart = new SmoothieChart({
+                millisPerPixel:200,
+                interpolation:'step',
                 grid: { 
                     strokeStyle:'rgb(125, 0, 0)', 
                     fillStyle:'rgb(60, 0, 0)',
