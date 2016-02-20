@@ -69,7 +69,7 @@ cprequire_test(["inline:com-chilipeppr-widget-ina219"], function(myWidget) {
 
     // init my widget
     myWidget.init();
-    $('#' + myWidget.id).css('margin', '10px');
+    $('#' + myWidget.id).css('margin', '20px');
     $('title').html(myWidget.name);
 
 } /*end_test*/ );
@@ -156,26 +156,30 @@ cpdefine("inline:com-chilipeppr-widget-ina219", ["chilipeppr_ready", 'SmoothieCh
                 millisPerPixel:200,
                 interpolation:'step',
                 grid: { 
-                    strokeStyle:'rgb(125, 0, 0)', 
-                    fillStyle:'rgb(60, 0, 0)',
+                    strokeStyle:'rgb(50, 50, 50)', 
+                    //fillStyle:'rgb(60, 0, 0)',
                     lineWidth: 1, 
-                    millisPerLine: 250, 
-                    verticalSections: 6, 
-                    
+                    millisPerLine: 2000, 
+                    verticalSections: 6,
                 },
                 labels: { 
-                    fillStyle:'rgb(60, 0, 0)' 
+                    //fillStyle:'rgb(60, 0, 0)' 
                     
                 }
             });
-            chart.addTimeSeries(this.lines.random, { strokeStyle: 'rgba(255, 105,105, 1)', fillStyle: 'rgba(255, 105, 105, 0.2)', lineWidth: 4 });
+            chart.addTimeSeries(this.lines.random, { 
+                strokeStyle: 'rgba(255, 105, 105, 1)', 
+                fillStyle: 'rgba(255, 105, 105, 0.2)', 
+                lineWidth: 1 });
             chart.streamTo(document.getElementById("com-chilipeppr-widget-ina219-chart"), 1000 /*delay*/);
             console.log("chart:", chart);
             this.chart = chart;
         },
         chartAddRandomDataPt: function() {
             console.log("adding random data pt");
-            this.lines.random.append(new Date().getTime(), Math.random() * 10000);
+            for (var i = 0; i < 20; i++) {
+                this.lines.random.append(new Date().getTime() + (i * 100), Math.random() * 10000);
+            }
         },
         chartAddDataPt: function(x, y) {
             
